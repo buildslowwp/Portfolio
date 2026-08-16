@@ -1,0 +1,119 @@
+---
+title: 'OrbitEvent'
+description: 'AI-Powered Event Management Platform with tickets generation and QR check-in.'
+image:
+  light: '/project/orbitevent-light.webp'
+  dark: '/project/orbitevent-dark.webp'
+
+technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Stripe', 'Clerk', 'MongoDB']
+github: 'https://github.com/Pujan Ratanpara/orbit-event'
+live: 'https://orbitevent.app/'
+timeline: '2 Months'
+role: 'Full Stack'
+team: 'Solo'
+status: 'completed'
+featured: true
+isPublished: true
+
+---
+
+# Orbitevent
+
+## Overview
+**Orbitevent** is a comprehensive, AI-powered event management platform designed to simplify the entire lifecycle of an event. From generating event details and ticketing to secure payments and mobile check-ins, it offers a seamless experience for modern event organizers and attendees. It leverages Google Gemini AI to auto-fill event metadata and dynamically suggests multi-tiered ticket pricing.
+
+---
+
+## Why I Built This
+
+I built Orbitevent to address the friction often experienced by independent event organizers when setting up and managing events:
+
+- **Cumbersome Setup** — Event organizers often spend too much time writing descriptions and configuring ticketing tiers manually.
+- **Fragmented Tools** — Juggling separate platforms for landing pages, ticketing, and on-site check-ins creates operational headaches.
+- **Payment Unreliability** — Ensuring tickets are reliably activated even if a user closes the browser during a payment sequence is a common point of failure.
+
+---
+
+## What Users Can Do
+
+- **Purchase Tickets via Stripe** — Secure checkout experience that supports various pricing tiers (e.g., Early Bird, General Admission, VIP).
+- **Access QR Code Tickets** — View and manage purchased tickets in a dedicated dashboard, each equipped with a unique QR code for entry.
+- **Rich Event Content Navigation** — Browse and explore rich, formatted event descriptions created via the TipTap editor.
+
+---
+
+## Admin / Organizer Features
+
+- **Generate Events with AI** — Create complete event details from a single prompt, auto-filling title, description, location, category, dates, and pricing tiers.
+- **Multi-Tiered Ticketing Management** — Create and independently track unlimited ticket tiers with custom names, prices, and capacities.
+- **Mobile QR Check-in** — Organizers can securely scan tickets at the door using the built-in mobile check-in scanner right from their device.
+- **Event Dashboard** — Manage created events, monitor ticket sales visually, and edit event details effortlessly.
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js 16 (App Router) for hybrid rendering and fast performance.
+- **Styling**: Tailwind CSS 4 combined with Shadcn UI for a premium, accessible, and highly customizable design system.
+- **Rich Text**: TipTap Editor for robust, customizable text formatting natively in the browser.
+- **QR Scanning**: `react-qr-code` and `@yudiel/react-qr-scanner`.
+
+### Backend
+
+- **Runtime & Logic**: Next.js Server Actions to securely run CRUD operations, Stripe SDK, and Gemini logic without increasing client bundle size.
+- **Database**: MongoDB with Mongoose for flexible, document-based storage that adapts to complex event metadata and ticket structures.
+- **Authentication**: Clerk for secure, effortless user identity and session management.
+- **Payments**: Stripe Checkout & Webhooks for processing payments and managing the multi-step verification ticketing lifecycle.
+- **AI**: Google Gemini API for structural generation.
+
+---
+
+## Technical Implementation
+
+### Dual-Fulfillment Architecture for Payments
+
+To gracefully handle edge cases where a user pays but closes their tab prematurely, I implemented a dual-fulfillment architecture:
+
+- **Webhook (Primary)**: A listener continuously running on the server to catch Stripe checkout success events and activate the pending ticket asynchronously.
+- **Verify API (Fallback)**: A highly-available secondary check built directly into the `/payment/success` page, verifying ticket state in real-time.
+
+```text
+// Payment Flow Lifecycle Outline
+User Clicks Buy -> Create Pending Ticket -> Stripe Hosted Checkout 
+  -> Webhook Activates Ticket (Background) 
+  -> /payment/success Verifies State
+```
+
+### Server Actions for AI Workflows
+
+All calls to the Google Gemini AI for event generation are executed securely via Next.js Server Actions. This protects API keys, ensures robust server-side validation using Zod, and streams instructions perfectly without exposing logic.
+
+---
+
+## Challenges & Solutions
+
+### Challenge 1: Structured Output from AI Model
+
+- **Problem**: Generating complex JSON event structures (with dynamic dates, categories, and varying ticket tiers) using LLMs often results in structurally invalid output that crashes the UI.
+- **Solution**: Designed strict prompt templates combined with Zod schema validation to ensure the response is correctly instantiated before attempting to write to the database or pass state to the client.
+
+### Challenge 2: Secure QR Scanning Verification
+
+- **Problem**: Ensuring tickets couldn't be scanned multiple times or spoofed, leading to "Double Check-in" attacks or unauthorized access.
+- **Solution**: Developed a server-side state verification system bound to the QR scanner component. Each scan cross-references a unique hash against the live database, altering its state to `scanned` immediately to prevent subsequent usage.
+
+---
+
+## Future Plans
+
+- **Short-term**: Implement an advanced analytics dashboard for organizers (sales graphs, demographics).
+- **Medium-term**: Add attendee management dashboards with role-based access control (RBAC) to support on-site staff.
+- **Long-term**: Integrate automated email and SMS reminders for post-purchase confirmations and pre-event notifications.
+
+---
+
+## TL;DR
+
+Orbitevent is a full-stack, AI-powered platform that revolutionizes event management. By merging Gemini AI to write event copy, Stripe for battle-tested payments, and a sleek Next.js App Router setup, it delivers a deeply polished registration and mobile check-in experience.
