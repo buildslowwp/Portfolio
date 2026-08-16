@@ -2,21 +2,17 @@
 
 import { githubConfig } from '@/config/Github';
 import { useTheme } from 'next-themes';
-import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
-import type { Activity } from 'react-activity-calendar';
-import { GitHubCalendar } from 'react-github-calendar';
+import { type Activity, GitHubCalendar } from 'react-github-calendar';
 
 import Container from '../common/Container';
-import GithubIcon from '../svgs/Github';
-import { Button } from '../ui/button';
 
 export default function Github() {
   const [totalContributions, setTotalContributions] = useState(0);
   const totalSet = useRef(false);
   const { theme } = useTheme();
 
-  // Capture total from the fetched data without triggering setState during render
+  // Capture total from fetched data without triggering setState during render
   const transformData = useCallback((data: Activity[]) => {
     if (!totalSet.current) {
       const total = data.reduce((sum, d) => sum + d.count, 0);
@@ -61,9 +57,9 @@ export default function Github() {
                 fontSize={githubConfig.fontSize}
                 colorScheme={theme === 'dark' ? 'dark' : 'light'}
                 maxLevel={githubConfig.maxLevel}
-                hideTotalCount={true}
-                hideColorLegend={false}
-                hideMonthLabels={false}
+                showTotalCount={false}
+                showColorLegend={true}
+                showMonthLabels={true}
                 theme={githubConfig.theme}
                 labels={{
                   months: githubConfig.months,
@@ -74,38 +70,7 @@ export default function Github() {
                   color: 'rgb(139, 148, 158)',
                 }}
                 transformData={transformData}
-                renderLoading={() => (
-                  <div className="flex items-center justify-center py-16">
-                    <div className="text-center">
-                      <div className="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"></div>
-                      <p className="text-muted-foreground text-sm">
-                        {githubConfig.loadingState.description}
-                      </p>
-                    </div>
-                  </div>
-                )}
-                renderError={() => (
-                  <div className="text-muted-foreground border-border rounded-xl border-2 border-dashed p-8 text-center">
-                    <div className="bg-muted mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <GithubIcon className="h-8 w-8" />
-                    </div>
-                    <p className="mb-2 font-medium">
-                      {githubConfig.errorState.title}
-                    </p>
-                    <p className="mb-4 text-sm">
-                      {githubConfig.errorState.description}
-                    </p>
-                    <Button variant="outline" asChild>
-                      <Link
-                        href={`https://github.com/${githubConfig.username}`}
-                        className="inline-flex items-center gap-2"
-                      >
-                        <GithubIcon className="h-4 w-4" />
-                        {githubConfig.errorState.buttonText}
-                      </Link>
-                    </Button>
-                  </div>
-                )}
+                errorMessage={githubConfig.errorState.title}
               />
             </div>
           </div>

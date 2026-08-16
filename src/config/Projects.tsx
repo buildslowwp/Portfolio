@@ -29,6 +29,7 @@ export const projects: Project[] = [
       {
         name: 'Clerk',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/clerk/000000"
             alt="Clerk"
@@ -64,6 +65,7 @@ export const projects: Project[] = [
       {
         name: 'Stripe',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/stripe/000000"
             alt="Stripe"
@@ -76,6 +78,7 @@ export const projects: Project[] = [
       {
         name: 'Clerk',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/clerk/000000"
             alt="Clerk"
@@ -110,6 +113,7 @@ export const projects: Project[] = [
       {
         name: 'Drizzle ORM',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/drizzle/000000"
             alt="Drizzle"
@@ -144,6 +148,7 @@ export const projects: Project[] = [
       {
         name: 'Stripe',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/stripe/000000"
             alt="Stripe"
@@ -155,6 +160,7 @@ export const projects: Project[] = [
       {
         name: 'Clerk',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://cdn.simpleicons.org/clerk/000000"
             alt="Clerk"
@@ -184,6 +190,7 @@ export const projects: Project[] = [
       {
         name: 'Zustand',
         icon: (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src="https://api.iconify.design/vscode-icons:file-type-zustand.svg"
             alt="Zustand"
